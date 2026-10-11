@@ -1,0 +1,31 @@
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Office / PDF 编辑时的临时文件
+~$*
+*.tmp
+*.bak
+
+# LaTeX 中间产物
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+venv/
+.venv/
+
+# 数据与模型等大体积文件，请改用 GitHub Releases
+*.zip
+*.tar.gz
+*.pth
+*.pt
+*.ckpt
