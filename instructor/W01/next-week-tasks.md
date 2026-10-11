@@ -26,3 +26,8 @@
 ## Notes
 
 -
+
+## Related
+
+- Meeting notes: [this-week.md](this-week.md)
+- Assignment tracker: [../../student/assignments/README.md](../../student/assignments/README.md)

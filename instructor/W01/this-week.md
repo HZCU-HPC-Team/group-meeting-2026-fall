@@ -35,3 +35,8 @@
 <!-- Papers, datasets, code used this meeting. -->
 
 -
+
+## Related
+
+- Tasks handed out: [next-week-tasks.md](next-week-tasks.md)
+- Assignment tracker: [../../student/assignments/README.md](../../student/assignments/README.md)
