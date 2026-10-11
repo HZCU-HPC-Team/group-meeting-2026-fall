@@ -1,14 +1,14 @@
-# 系统与编辑器
+# OS and editor artifacts
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# Office / PDF 编辑时的临时文件
+# Office / PDF editor temp files
 ~$*
 *.tmp
 *.bak
 
-# LaTeX 中间产物
+# LaTeX intermediates
 *.aux
 *.log
 *.out
@@ -23,9 +23,11 @@ __pycache__/
 venv/
 .venv/
 
-# 数据与模型等大体积文件，请改用 GitHub Releases
+# Large data and model files — use GitHub Releases instead
 *.zip
 *.tar.gz
 *.pth
 *.pt
 *.ckpt
+# WorkBuddy project data
+.workbuddy/

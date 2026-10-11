@@ -1,43 +1,43 @@
 # group-meeting
 
-组会共享仓库。按学期归档，学期内按角色分目录。
+Shared repository for group meetings, archived by semester.
 
-## 目录结构
+## Structure
 
 ```
 group-meeting/
-├── 讲师/                      # 组会主持方：每周围一次
-│   └── 2026-秋季学期/
+├── instructor/                # Organized by week
+│   └── 2026-fall/
 │       ├── W01/
-│       │   ├── 本周内容.md      # 本次组会讲了什么
-│       │   └── 下周任务.md      # 下次之前要完成什么
+│       │   ├── this-week.md        # What this meeting covered
+│       │   └── next-week-tasks.md  # What to finish before next time
 │       └── W02/
-├── 学生/                      # 参与方：按交付物归档
-│   └── 2026-秋季学期/
-│       └── 作业/
-│           ├── README.md        # 作业清单与状态
-│           └── 主题A-姓名/
+├── student/                   # Organized by deliverable
+│   └── 2026-fall/
+│       └── assignments/
+│           ├── README.md           # Assignment list and status
+│           └── topic-a-yourname/
 └── README.md
 ```
 
-## 两条线的区别
+## Two tracks
 
-**讲师线** 以「周」为单位组织，回答的是：*这次开了什么、下次要做什么*。
-每周一个 `Wxx` 文件夹，长期不改动，只追加。
+**Instructor track** is organized by week. It answers: *what did we discuss, what needs doing next*.
+One `Wxx` folder per meeting. Existing weeks are append-only — don't rewrite history, add to them.
 
-**学生线** 以「作业」为单位组织，回答的是：*谁要交什么、交了没有*。
-按主题 + 姓名建目录，作业完成就提交，最终状态更新到 `学生/<学期>/作业/README.md`。
+**Student track** is organized by assignment. It answers: *who owes what, has it been turned in*.
+One folder per topic + name. Final status gets reflected in `student/<semester>/assignments/README.md`.
 
-两条线不交叉：讲师不直接改学生目录，学生也不改讲师目录。
-有变更时通过提交信息（commit message）留痕。
+The two tracks do not overlap: instructors do not edit student folders, and students do not edit
+instructor folders. Changes are traced through commit messages.
 
-## 周次编号
+## Week numbering
 
-`W01`、`W02`…… 从 1 开始，零填充两位，与学期内第几次组会对应。
-新学期在 `讲师/` 下新建一个 `<年份>-<学期>` 目录，从 `W01` 重新计数。
+`W01`, `W02`, ... starts at 1, zero-padded to two digits, matching the meeting index within a semester.
+Each new semester gets a fresh `<year>-<season>` folder under `instructor/`, counting restarts at `W01`.
 
-## 提交规范
+## Commit conventions
 
-- 一次提交只做一件事，提交信息写清楚：改哪个周次的什么内容
-- 上传 PPT / PDF 前先确认体积，单文件建议不超过 50 MB
-- 大文件或需要版本留存的素材，放GitHub Releases，不进 git 仓库
+- One logical change per commit; state which week and what changed
+- Check file size before committing — keep individual files under 50 MB
+- For large assets or files needing version retention, use GitHub Releases instead of the git repository
