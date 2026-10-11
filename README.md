@@ -19,7 +19,11 @@ group-meeting-2026-fall/
 ├── W01/
 │   ├── this-week.md           # 讲师：本周讲了什么
 │   ├── next-week-tasks.md     # 讲师：下周要完成什么
-│   ├── workload.md            # 讲师：本环节与用时
+│   ├── workload.md            # 讲师：本次会议时长与出勤（权威）
+│   ├── instructor/            # 讲师专属
+│   │   ├── plan.md            # 本周授课计划 + 备料预估
+│   │   ├── SUMMARY.md         # 本周汇总视图
+│   │   └── materials/         # 授课材料，形式自选
 │   ├── jy/                    # 姜杨
 │   ├── wyt/                   # 汪予甜
 │   ├── whh/                   # 王厚骅
@@ -38,39 +42,67 @@ group-meeting-2026-fall/
 
 ---
 
-## 每周三类文件
+## 讲师侧
 
-每周文件夹里有三类内容：
+讲什么完全自由——讲 VS Code、讲 Linux、讲服务器连接都可以，形式也不限：
+幻灯片、Markdown 文档、实机演示、HTML 页面都行。
 
-**讲师侧（3 个文件）**
-- `this-week.md` —— 本次组会讨论了什么，含时间、地点、参与人
-- `next-week-tasks.md` —— 下次之前要完成的任务，含个人任务表和提交位置
-- `workload.md` —— 本次投入的时间与工作环节（备课、讲授、答疑、审阅、组织）
+**结构固定，内容自由**：讲什么由讲师决定，但每一步都落在同一套结构上，
+这样不同周次之间才可比。
 
-**学生侧** —— 每位同学在自己缩写命名的文件夹里放本周的作业、汇报材料、文献笔记等。
-文件夹按「主题名-日期」命名，例如：
+### 每周文件分工
+
+| 文件 | 性质 | 内容 |
+|---|---|---|
+| `Wxx/workload.md` | **权威** | 会议时长、出勤情况 |
+| `Wxx/instructor/plan.md` | **权威** | 本周授课计划、下次预告、备料预估 |
+| `Wxx/instructor/SUMMARY.md` | 视图 | 从上述两个文件汇总，冲突时以原始记录为准 |
+| `Wxx/instructor/materials/` | 材料 | 授课用PPT / 文档 / 演示，按需添加 |
+
+### 材料命名
+
+放在 `Wxx/instructor/materials/`，按 `w<周次>-<主题>-<类型>` 命名：
+
+```
+W01/instructor/materials/
+├── w01-vscode-intro-slides.pptx
+├── w01-linux-basics-notes.md
+├── w01-ssh-demo/
+└── w01-ide-tools-ref.pdf
+```
+
+大文件（>50 MB）走 GitHub Releases，这里只放链接。
+
+---
+
+## 学生侧
+
+每位同学在自己缩写命名的文件夹里放本周的作业、汇报材料、文献笔记等。
+命名用「主题名-日期」：
 
 ```
 W01/jy/literature-review-20261015.pdf
 W01/jy/slides-draft-20261018.pptx
 ```
 
-三者不交叉：讲师不写学生的个人目录，学生也不改讲师的三个 md 文件。变更通过提交信息留痕。
+讲师侧与学生侧不交叉：讲师不写学生的个人目录，学生不改讲师的 md 文件。
+变更通过提交信息留痕。
 
 ---
 
 ## 关于工作量记录
 
-`workload.md` 按五类工作环节记录用时，学期末汇总到根目录的 [WORKLOAD.md](WORKLOAD.md)。
+**计量口径：只算会议时长**，即讲师实际到场参与组会的时间。备课、答疑、材料审阅
+等会外投入不计入本口径，单独记录在 `instructor/plan.md` 的备料预估中，两者分开统计。
 
-**记录原则：当次填写，不事后补记。** git 的提交时间戳会作为交叉印证的参考——
-如果每份记录都在组会当天提交，两边时间就能对上；集中补记则失去参考价值。
+这个口径客观、难以夸大，但**低估会外的真实投入**。学期末`WORKLOAD.md` 里
+两种数字都列出来，讨论时可自行选择口径。
 
-**单周记录没有价值，能加总才有。** 所以务必每周填写，`WORKLOAD.md` 里的汇总表才能形成
-有效的学期总量。
+**请注意本表的性质**：数据由讲师本人填写，仓库不提供技术验证。
+git 提交时间戳可作参考，但提交时间不等于工作发生时间。**这是一份声明，不是证据。**
+详见 [WORKLOAD.md](WORKLOAD.md) 的说明。
 
-**口径要先谈清楚。** 「哪些环节计入、多大标准换算」建议在学期开始前确定并写进约定，
-避免学期末就口径产生分歧。本仓库只记录**事实**，不预设报酬结论。
+**单周记录没有价值，能加总才有。** 每周填写，学期末才能形成有效总量。
 
 ---
 
@@ -92,13 +124,16 @@ W01/jy/slides-draft-20261018.pptx
 
 ```bash
 # 1. 复制上一周的讲师文件（git mv 能保留文件历史）
-mkdir -p W11
-git mv W10/this-week.md       W11/this-week.md
-git mv W10/next-week-tasks.md W11/next-week-tasks.md
-git mv W10/workload.md        W11/workload.md
+mkdir -p W11/instructor/materials
+git mv W10/this-week.md               W11/this-week.md
+git mv W10/next-week-tasks.md         W11/next-week-tasks.md
+git mv W10/workload.md                W11/workload.md
+git mv W10/instructor/plan.md         W11/instructor/plan.md
+git mv W10/instructor/SUMMARY.md      W11/instructor/SUMMARY.md
+touch W11/instructor/materials/.gitkeep
 
 # 2. 把内容里的 W10 替换成 W11
-sed -i "s/W10/W11/g" W11/*.md
+sed -i "s/W10/W11/g" W11/*.md W11/instructor/*.md
 
 # 3. 为每位学生建目录（.gitkeep 让空目录能被 git 跟踪）
 for s in jy wyt whh wcy lgj cyl cyp; do mkdir -p W11/$s && touch W11/$s/.gitkeep; done
