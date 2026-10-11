@@ -14,10 +14,12 @@
 group-meeting-2026-fall/
 ├── README.md                  # 本文件
 ├── ROSTER.md                  # 学生名单与缩写对照
+├── WORKLOAD.md                # 讲师工作量学期汇总
 ├── .gitignore
 ├── W01/
 │   ├── this-week.md           # 讲师：本周讲了什么
 │   ├── next-week-tasks.md     # 讲师：下周要完成什么
+│   ├── workload.md            # 讲师：本环节与用时
 │   ├── jy/                    # 姜杨
 │   ├── wyt/                   # 汪予甜
 │   ├── whh/                   # 王厚骅
@@ -36,12 +38,14 @@ group-meeting-2026-fall/
 
 ---
 
-## 两条线
+## 每周三类文件
 
-每周文件夹里有两类内容：
+每周文件夹里有三类内容：
 
-**讲师侧** —— `this-week.md` 记录本次组会讨论了什么，`next-week-tasks.md` 布置下次之前要完成的任务。
-每周只追加、不改写既往记录；要改也是补新条目，不覆盖旧内容。
+**讲师侧（3 个文件）**
+- `this-week.md` —— 本次组会讨论了什么，含时间、地点、参与人
+- `next-week-tasks.md` —— 下次之前要完成的任务，含个人任务表和提交位置
+- `workload.md` —— 本次投入的时间与工作环节（备课、讲授、答疑、审阅、组织）
 
 **学生侧** —— 每位同学在自己缩写命名的文件夹里放本周的作业、汇报材料、文献笔记等。
 文件夹按「主题名-日期」命名，例如：
@@ -51,7 +55,22 @@ W01/jy/literature-review-20261015.pdf
 W01/jy/slides-draft-20261018.pptx
 ```
 
-两条线不交叉：讲师不写学生的个人目录，学生也不改讲师的两个 md 文件。变更通过提交信息留痕。
+三者不交叉：讲师不写学生的个人目录，学生也不改讲师的三个 md 文件。变更通过提交信息留痕。
+
+---
+
+## 关于工作量记录
+
+`workload.md` 按五类工作环节记录用时，学期末汇总到根目录的 [WORKLOAD.md](WORKLOAD.md)。
+
+**记录原则：当次填写，不事后补记。** git 的提交时间戳会作为交叉印证的参考——
+如果每份记录都在组会当天提交，两边时间就能对上；集中补记则失去参考价值。
+
+**单周记录没有价值，能加总才有。** 所以务必每周填写，`WORKLOAD.md` 里的汇总表才能形成
+有效的学期总量。
+
+**口径要先谈清楚。** 「哪些环节计入、多大标准换算」建议在学期开始前确定并写进约定，
+避免学期末就口径产生分歧。本仓库只记录**事实**，不预设报酬结论。
 
 ---
 
@@ -76,9 +95,10 @@ W01/jy/slides-draft-20261018.pptx
 mkdir -p W11
 git mv W10/this-week.md       W11/this-week.md
 git mv W10/next-week-tasks.md W11/next-week-tasks.md
+git mv W10/workload.md        W11/workload.md
 
 # 2. 把内容里的 W10 替换成 W11
-sed -i "s/W10/W11/g" W11/this-week.md W11/next-week-tasks.md
+sed -i "s/W10/W11/g" W11/*.md
 
 # 3. 为每位学生建目录（.gitkeep 让空目录能被 git 跟踪）
 for s in jy wyt whh wcy lgj cyl cyp; do mkdir -p W11/$s && touch W11/$s/.gitkeep; done
