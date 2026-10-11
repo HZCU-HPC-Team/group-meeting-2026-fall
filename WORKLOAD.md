@@ -2,55 +2,55 @@
 
 ## 计量口径
 
-本学期工作量按 **会议时长** 计量，即讲师实际到场参与组会的时间。
+本学期工作量按 **会内时长** 计量，即讲师实际到场参与组会的时间。
 
-- **统计范围**：每次组会的实际起止时间
-- **不计入**：备课、答疑、材料审阅等会外投入（单独记录于各周 `instructor/plan.md`）
+- **统计范围**：每次组会的实际起止时间（记录在各周 `instructor/session.md` 第一节）
+- **不计入**：备课、答疑、材料审阅等会外投入（单独记录在同一文件的第六节）
 - **统计单位**：小时
-- **单次平均**：总时长 ÷ 实际开课次数
+- **单次平均**：会内总时长 ÷ 实际开课次数
 
-> 这一口径的优势是客观、难以夸大；代价是**低估了会外的真实投入**。
-> 若需完整核算工作内容，可同时参考 `plan.md` 中的备料预估，两者分开统计、不混算。
+>这一口径客观、难以夸大，代价是**低估会外的真实投入**。
+> 讨论时可同时参考会外的备料预估，两者分开统计、不混算。
 
 ## 逐周明细
 
-| 周次 | 日期 | 计划时长 | 实际时长 | 差异 | 出勤人数 | 记录文件 |
+| 周次 | 日期 | 实际时长 | 计划时长 | 出勤 | 主题 | 记录文件 |
 |---|---|---|---|---|---|---|
-| W01 | | | | | / 7 | [`W01/workload.md`](W01/workload.md) |
-| W02 | | | | | / 7 | [`W02/workload.md`](W02/workload.md) |
-| W03 | | | | | / 7 | [`W03/workload.md`](W03/workload.md) |
-| W04 | | | | | / 7 | [`W04/workload.md`](W04/workload.md) |
-| W05 | | | | | / 7 | [`W05/workload.md`](W05/workload.md) |
-| W06 | | | | | / 7 | [`W06/workload.md`](W06/workload.md) |
-| W07 | | | | | / 7 | [`W07/workload.md`](W07/workload.md) |
-| W08 | | | | | / 7 | [`W08/workload.md`](W08/workload.md) |
-| W09 | | | | | / 7 | [`W09/workload.md`](W09/workload.md) |
-| W10 | | | | | / 7 | [`W10/workload.md`](W10/workload.md) |
+| W01 | | | | / 7 | | [`W01/instructor/session.md`](W01/instructor/session.md) |
+| W02 | | | | | / 7 | | [`W02/instructor/session.md`](W02/instructor/session.md) |
+| W03 | | | | / 7 | | [`W03/instructor/session.md`](W03/instructor/session.md) |
+| W04 | | | | / 7 | | [`W04/instructor/session.md`](W04/instructor/session.md) |
+| W05 | | | | / 7 | | [`W05/instructor/session.md`](W05/instructor/session.md) |
+| W06 | | | | / 7 | | [`W06/instructor/session.md`](W06/instructor/session.md) |
+| W07 | | | | / 7 | | [`W07/instructor/session.md`](W07/instructor/session.md) |
+| W08 | | | | / 7 | | [`W08/instructor/session.md`](W08/instructor/session.md) |
+| W09 | | | | / 7 | | [`W09/instructor/session.md`](W09/instructor/session.md) |
+| W10 | | | | / 7 | | [`W10/instructor/session.md`](W10/instructor/session.md) |
 | **合计** | | | | | | |
 
 ## 会外投入（参考）
 
-| 周次 | 备料预估 | 主讲主题 | 记录文件 |
+| 周次 | 备料预估 | 主题 | 记录文件 |
 |---|---|---|---|
-| W01 | | | [`W01/instructor/plan.md`](W01/instructor/plan.md) |
-| W02 | | | [`W02/instructor/plan.md`](W02/instructor/plan.md) |
-| W03 | | | [`W03/instructor/plan.md`](W03/instructor/plan.md) |
-| W04 | | | [`W04/instructor/plan.md`](W04/instructor/plan.md) |
-| W05 | | | [`W05/instructor/plan.md`](W05/instructor/plan.md) |
-| W06 | | | [`W06/instructor/plan.md`](W06/instructor/plan.md) |
-| W07 | | | [`W07/instructor/plan.md`](W07/instructor/plan.md) |
-| W08 | | | [`W08/instructor/plan.md`](W08/instructor/plan.md) |
-| W09 | | | [`W09/instructor/plan.md`](W09/instructor/plan.md) |
-| W10 | | | [`W10/instructor/plan.md`](W10/instructor/plan.md) |
+| W01 | | | [`W01/instructor/session.md`](W01/instructor/session.md) |
+| W02 | | | [`W02/instructor/session.md`](W02/instructor/session.md) |
+| W03 | | | [`W03/instructor/session.md`](W03/instructor/session.md) |
+| W04 | | | [`W04/instructor/session.md`](W04/instructor/session.md) |
+| W05 | | | [`W05/instructor/session.md`](W05/instructor/session.md) |
+| W06 | | | [`W06/instructor/session.md`](W06/instructor/session.md) |
+| W07 | | | [`W07/instructor/session.md`](W07/instructor/session.md) |
+| W08 | | | [`W08/instructor/session.md`](W08/instructor/session.md) |
+| W09 | | | [`W09/instructor/session.md`](W09/instructor/session.md) |
+| W10 | | | [`W10/instructor/session.md`](W10/instructor/session.md) |
 | **合计** | | | |
 
 ## 统计结果
 
 - **实际开课次数**：
-- **会议总时长**：
+- **会内总时长**：
 - **单次平均时长**：
 - **备料预估总时长**：
-- **全口径总投入**：（会议+ 备料，供讨论）
+- **全口径总投入**：（会内 + 会外，供讨论）
 
 ---
 
@@ -68,20 +68,20 @@
 
 - 双方定期核对并签字
 - 学生签到表
-- 定期（如每月）确认而非学期末一次性确认
+- 定期（如每月）确认，而非学期末一次性确认
 
 **本仓库只记录工作内容与时长这一事实，不预设计酬结论。**
 计酬标准由双方另行约定；若涉及报酬，建议以书面形式明确口径。
 
 ---
 
-## 数据维护
+## 数据来源
 
-| 文件 | 性质 | 填写人 |
-|---|---|---|
-| `Wxx/workload.md` | **权威记录** — 会议时长、出勤 | 讲师 |
-| `Wxx/instructor/plan.md` | **权威记录** — 授课计划、备料预估 | 讲师 |
-| `Wxx/instructor/SUMMARY.md` | 汇总视图 — 由上述文件汇总 | 讲师 |
-| `WORKLOAD.md`（本文件） | 学期汇总 — 由上述文件汇总 | 讲师 |
+| 文件 | 角色 |
+|---|---|
+| `Wxx/instructor/session.md` | **唯一权威记录** — 时间、人员、主题、内容、提交情况、下周计划 |
+| `Wxx/next-week-tasks.md` | 学生侧入口 — 组会要点 + 本周任务 |
+| `Wxx/instructor/materials/` | 授课材料 |
+| `WORKLOAD.md`（本文件） | 学期汇总视图 |
 
-汇总类文件如与周目录原始记录冲突，**以周目录为准**。
+所有工作量数据均来自各周的 `instructor/session.md`，本文件不单独填写。

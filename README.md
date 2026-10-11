@@ -17,12 +17,9 @@ group-meeting-2026-fall/
 ├── WORKLOAD.md                # 讲师工作量学期汇总
 ├── .gitignore
 ├── W01/
-│   ├── this-week.md           # 讲师：本周讲了什么
-│   ├── next-week-tasks.md     # 讲师：下周要完成什么
-│   ├── workload.md            # 讲师：本次会议时长与出勤（权威）
+│   ├── next-week-tasks.md     # 学生与讲师共用：组会纪要 + 本周任务
 │   ├── instructor/            # 讲师专属
-│   │   ├── plan.md            # 本周授课计划 + 备料预估
-│   │   ├── SUMMARY.md         # 本周汇总视图
+│   │   ├── session.md         # 唯一权威记录：时间/人员/主题/内容/提交情况
 │   │   └── materials/         # 授课材料，形式自选
 │   ├── jy/                    # 姜杨
 │   ├── wyt/                   # 汪予甜
@@ -42,22 +39,40 @@ group-meeting-2026-fall/
 
 ---
 
+## 每周文件分工
+
+每周只有两个记录文件，职责分明：
+
+| 文件 | 面向 | 内容 |
+|---|---|---|
+| `Wxx/next-week-tasks.md` | 学生 + 讲师 | 本次讲了什么（要点式）、本周要做什么、提交方式、下次预告 |
+| `Wxx/instructor/session.md` | 讲师 | 时间、出席、主题、详细讨论记录、学生提交情况、下周计划、备料预估 |
+
+**分工原则**：学生只看 `next-week-tasks.md`，那是一份**面向学生的纪要**——
+记结论和要点，不展开讨论过程。讲师需要完整信息，查`instructor/session.md`。
+两份文件都记"讲了什么"，但颗粒度不同，这是有意设计的。
+
+---
+
 ## 讲师侧
 
-讲什么完全自由——讲 VS Code、讲 Linux、讲服务器连接都可以，形式也不限：
+讲什么完全自由——讲 VS Code、讲Linux、讲服务器连接都可以，形式也不限：
 幻灯片、Markdown 文档、实机演示、HTML 页面都行。
 
 **结构固定，内容自由**：讲什么由讲师决定，但每一步都落在同一套结构上，
 这样不同周次之间才可比。
 
-### 每周文件分工
+### session.md 的七个小节
 
-| 文件 | 性质 | 内容 |
+| 小节 | 内容 | 量化作用 |
 |---|---|---|
-| `Wxx/workload.md` | **权威** | 会议时长、出勤情况 |
-| `Wxx/instructor/plan.md` | **权威** | 本周授课计划、下次预告、备料预估 |
-| `Wxx/instructor/SUMMARY.md` | 视图 | 从上述两个文件汇总，冲突时以原始记录为准 |
-| `Wxx/instructor/materials/` | 材料 | 授课用PPT / 文档 / 演示，按需添加 |
+| 一、时间 | 日期、起止时间、实际时长 | **会内工时的唯一来源** |
+| 二、人员 | 讲师姓名、7 人出席情况 | 出勤可核对 |
+| 三、主题 | 主题、目标、形式、关联材料 | 说明讲了什么性质的内容 |
+| 四、讲了什么 | 议题、讨论要点、结论 | 工作内容的证据 |
+| 五、学生上周提交情况 | 7 人提交状态与质量评价 | 反映审阅投入 |
+| 六、下周计划 | 主题、目标、备料预估 | **会外工时的来源** |
+| 七、备注 | 缺席、代课、临时加会 | 特殊情况说明 |
 
 ### 材料命名
 
@@ -85,6 +100,8 @@ W01/jy/literature-review-20261015.pdf
 W01/jy/slides-draft-20261018.pptx
 ```
 
+具体要求写在每周的 `next-week-tasks.md` 第三节，学生照着做即可。
+
 讲师侧与学生侧不交叉：讲师不写学生的个人目录，学生不改讲师的 md 文件。
 变更通过提交信息留痕。
 
@@ -92,10 +109,10 @@ W01/jy/slides-draft-20261018.pptx
 
 ## 关于工作量记录
 
-**计量口径：只算会议时长**，即讲师实际到场参与组会的时间。备课、答疑、材料审阅
-等会外投入不计入本口径，单独记录在 `instructor/plan.md` 的备料预估中，两者分开统计。
+**计量口径：只算会内时长**，即讲师实际到场参与组会的时间。备课、答疑、材料审阅
+等会外投入不计入本口径，记录在 `instructor/session.md` 第六节的备料预估中，两者分开统计。
 
-这个口径客观、难以夸大，但**低估会外的真实投入**。学期末`WORKLOAD.md` 里
+这个口径客观、难以夸大，但**低估会外的真实投入**。学期末 `WORKLOAD.md` 里
 两种数字都列出来，讨论时可自行选择口径。
 
 **请注意本表的性质**：数据由讲师本人填写，仓库不提供技术验证。
@@ -123,17 +140,14 @@ git 提交时间戳可作参考，但提交时间不等于工作发生时间。*
 ## 新增一周
 
 ```bash
-# 1. 复制上一周的讲师文件（git mv 能保留文件历史）
+# 1. 复制上一周的记录文件（git mv 能保留文件历史）
 mkdir -p W11/instructor/materials
-git mv W10/this-week.md               W11/this-week.md
 git mv W10/next-week-tasks.md         W11/next-week-tasks.md
-git mv W10/workload.md                W11/workload.md
-git mv W10/instructor/plan.md         W11/instructor/plan.md
-git mv W10/instructor/SUMMARY.md      W11/instructor/SUMMARY.md
+git mv W10/instructor/session.md      W11/instructor/session.md
 touch W11/instructor/materials/.gitkeep
 
 # 2. 把内容里的 W10 替换成 W11
-sed -i "s/W10/W11/g" W11/*.md W11/instructor/*.md
+sed -i "s/W10/W11/g" W11/next-week-tasks.md W11/instructor/session.md
 
 # 3. 为每位学生建目录（.gitkeep 让空目录能被 git 跟踪）
 for s in jy wyt whh wcy lgj cyl cyp; do mkdir -p W11/$s && touch W11/$s/.gitkeep; done
