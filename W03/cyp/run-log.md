@@ -110,3 +110,50 @@ diff result.txt refer-2dim-5h.txt && echo SAME
 | `uniformvector-2dim-5h.txt file not found.` | 在别的目录运行，程序用相对路径 | `cd` 到数据所在目录，或把文件名作为参数传进去 |
 | 前台跑被 SSH 断线杀掉 | 进程挂在登录 shell 下 | `nohup ... &` 或 `tmux` |
 | 终端被几千行迭代日志刷屏 | `Combination()` 里 k-2 层每轮都 `printf` | 重定向到 `run.log`；优化版会删掉这段打印 |
+
+## 7. 服务器（hzcu-hpct）上的实操与两个真坑
+
+### 7.1 环境确认
+
+```bash
+ssh -p 9446 cyp@10.61.190.8            # 端口 9446，不是 22
+uname -r                                # 5.15.0-191-generic
+gcc --version | head -1                 # gcc 12.3.0
+nproc                                   # 128
+lscpu | grep -E 'Model name|MHz|L3'     # Xeon Gold 6430 / 3400MHz / L3 120MiB
+
+# perf 先查"有没有"，再查"能不能用"
+perf --version                          # perf 5.15.209（已装，不用装）
+cat /proc/sys/kernel/perf_event_paranoid  # -1 → 普通用户即可采集，不用 sudo
+```
+
+### 7.2 坑 1：`nohup` 也会被登录会话回收
+
+第一次用 `nohup bash server-run-all.sh &` 挂后台，中途断开 SSH 后进程就没了（跑到一半的 O0 计时丢失）。原因：登录会话被 systemd-logind 收尾时，整个 user slice 会被清。
+
+**可靠做法**（按可靠性排序）：
+
+1. `tmux new -s pivot` → 里面跑 → `Ctrl-b d` 脱离；断了 `tmux attach -t pivot` 回来；
+2. `setsid nohup ./cmd > log 2>&1 < /dev/null &`（脱离控制终端与会话）；
+3. 干脆别断：保持一个常连的 SSH 会话（我最后就是用长连接把脚本跑完的）。
+
+### 7.3 坑 2：`pkill -f server-run-all.sh` 会把自己也杀了
+
+`pkill -f` 匹配的是完整命令行，而**自己那条 `bash -c "pkill -f server-run-all.sh ..."` 的命令行里就含这个字符串**，于是自杀，命令什么都不输出，很容易误判成"已经杀干净了"。
+
+```bash
+pkill -f server-run-all.sh     # ✗ 可能杀掉自己
+pkill -x pivot_O0              # ✓ 按进程名精确匹配
+ps -o pid,etime,time,%cpu -C pivot_O0   # ✓ 先看清楚再动手
+```
+
+### 7.4 计时结果（服务器 vs 本机）
+
+| 档位 | 服务器（gcc 12.3 / Xeon 6430） | 本机（gcc 16.2 / i7-13650HX） |
+|---|---|---|
+| `-O0` | 500.47 s | 302.58 s |
+| `-O1` | 97.30 s | 33.04 s |
+| `-O2` | **60.65 s**（最快） | 37.24 s |
+| `-O3` | 61.95 s | **33.28 s**（最快） |
+
+服务器单核更慢的原因：共享机 + 全核负载，`perf stat` 实测有效频率只有 **2.596 GHz**；本机单核能跑到 4.x GHz。**"服务器核多"和"单线程快"完全是两件事**——这也正是本题（单线程 baseline，128 核闲置）最值得并行化的地方。
