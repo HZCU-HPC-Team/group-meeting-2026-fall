@@ -94,6 +94,7 @@ W03/cyp/
     ├── perf-template.md            # 同一张表的空模板（下次采集直接用）
     ├── server-perf/                # perf stat / report / annotate 原文
     ├── server-timing.txt           # 服务器 6 档计时原始日志
+    ├── server-verify.txt           # 服务器 12 次运行的逐次 diff 清单（checked=12，全 SAME）
     ├── server-env.txt / server-build.txt
     ├── bench-local.txt             # 本机 6 档 × 3 次 原始日志
     ├── hotspot-instrumented-local.txt  # 本机插桩实测热点原始输出

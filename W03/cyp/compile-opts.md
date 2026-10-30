@@ -43,7 +43,15 @@
 | `-O2 -march=native` | 62007 | 61875 | **61941** | 8.08x | 2014 | 1.007 |
 | `-O3 -march=native` | 62788 | 62361 | **62575** | 8.00x | 1993 | 0.997 |
 
-**每一次运行都 `result SAME`**（`diff result.txt refer-2dim-5h.txt` 全过）。
+**12 次运行，12 次 `result SAME`**，而且服务器上不存在行尾问题，是**逐字节相同**：
+
+```
+924858624d0290f145864ebe8b0cd094a1ddfc05935c952c3c95f63169db6a21  refer-2dim-5h.txt
+924858624d0290f145864ebe8b0cd094a1ddfc05935c952c3c95f63169db6a21  results/run/O2/r1/result.txt
+924858624d0290f145864ebe8b0cd094a1ddfc05935c952c3c95f63169db6a21  results/run/O0/r1/result.txt
+```
+
+逐次校验清单见 [data/server-verify.txt](data/server-verify.txt)（`checked=12`，全部 SAME）。
 
 ## 3. 本机实测（交叉验证）
 
