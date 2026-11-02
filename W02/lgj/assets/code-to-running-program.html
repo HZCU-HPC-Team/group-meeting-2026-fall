@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>0001 · 一份代码是怎么变成「跑着的程序」的</title>
+<link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<header class="doc">
+  <div class="kicker">teach-linux · Lesson 0001</div>
+  <h1>一份代码是怎么变成「跑着的程序」的</h1>
+  <p class="out">使命：在 Linux 上独立跑通程序，终结「代码没错却跑不起来」· 存档版，学习以对话实操为准</p>
+</header>
+
+<h2>0 · 这节课解决什么</h2>
+<p>「代码没错却跑不起来」卡住的从来不是 C 语言，而是代码之外那层：编译、链接、权限、路径、运行时。这节课把整条流水线亲手走一遍，每一步都看见中间产物。</p>
+
+<h2>1 · 流水线全景</h2>
+<pre><code>hello.c ──预处理──▶ hello.i ──编译──▶ hello.s ──汇编──▶ hello.o ──链接──▶ hello(可执行)
+          头文件展开          变汇编指令        机器码碎片        和库拼成整件
+          宏替换              (人类可读)       (还不完整)        (能跑了)</code></pre>
+<p>平时敲 <code>clang hello.c -o hello</code> 是四步连着做。看不见步骤 = 出错时不知道坏在哪一环。</p>
+
+<h2>2 · 实操命令（按顺序敲）</h2>
+<pre class="prompt"><code>mkdir -p ~/WorkBuddy/teach-linux/playground &amp;&amp; cd ~/WorkBuddy/teach-linux/playground</code></pre>
+<pre class="prompt"><code>cat &gt; hello.c &lt;&lt;'EOF'
+#include &lt;stdio.h&gt;
+int main(void) {
+    printf("hello\n");
+    return 0;
+}
+EOF</code></pre>
+<pre class="prompt"><code>clang -E hello.c -o hello.i   # 预处理：头文件被展开成几百行
+clang -S hello.i -o hello.s   # 编译：变成汇编，可以打开看
+clang -c hello.s -o hello.o   # 汇编：变成机器码，但还跑不了
+clang hello.o -o hello        # 链接：补上 printf 的真身
+./hello</code></pre>
+<pre class="prompt"><code>file hello hello.o hello.s &amp;&amp; ls -l hello</code></pre>
+
+<h2>3 · 两个经典「跑不起来」的机制</h2>
+<h3>坑一：只敲 <code>hello</code> 不敲 <code>./hello</code></h3>
+<p>Shell 找命令只搜 <code>PATH</code> 环境变量里列的目录，当前目录 <code>.</code> 出于安全从来不在里面。所以必须 <code>./hello</code> 明说「当前目录下这个」。<code>echo $PATH</code> 可亲眼看搜索清单。</p>
+<h3>坑二：Permission denied</h3>
+<pre class="prompt"><code>chmod -x hello &amp;&amp; ./hello    # 故意撤掉执行位 → Permission denied
+chmod +x hello &amp;&amp; ./hello    # 加回来 → 正常跑</code></pre>
+<p><code>ls -l</code> 开头的 <code>-rwxr-xr-x</code> 里，x 就是执行位。内核加载程序前检查它，没有就直接拒——这不是玄学，是内核的一行检查。</p>
+<h3>退出码</h3>
+<pre class="prompt"><code>echo $?   # 看上一条命令的退出状态：0 = 成功，非 0 = 失败</code></pre>
+<p>这是 <code>&amp;&amp;</code>、<code>||</code>、脚本判断、CI 报绿的底层依据。</p>
+
+<h2>4 · Mac 与 Linux 的差异速记</h2>
+<table>
+<tr><th>点</th><th>Mac</th><th>Linux</th></tr>
+<tr><td>编译器</td><td>clang（<code>gcc</code> 是它的别名）</td><td>真 gcc / 也可装 clang</td></tr>
+<tr><td>内核</td><td>XNU（BSD 系）</td><td>Linux</td></tr>
+<tr><td>底层库</td><td>libSystem</td><td>glibc</td></tr>
+<tr><td>流水线四阶段</td><td colspan="2" style="text-align:center">完全一致，命令 95% 相通</td></tr>
+</table>
+
+<h2>5 · 排错顺序（背下来）</h2>
+<p>跑不起来时按此问自己：<b>① 命令找到了吗</b>（<code>which</code> / 是否要 <code>./</code>）→ <b>② 权限够吗</b>（<code>ls -l</code> 看 x 位）→ <b>③ 编译真过了吗</b>（有没有 error，warning 不挡编译）→ <b>④ 链接符号全了吗</b>（undefined reference = 链接器没找到函数真身）→ <b>⑤ 退出码说了什么</b>（<code>echo $?</code>）。</p>
+
+<footer class="doc">
+  <p>有不懂，直接问淇毅果（你的教学 Agent）——追问永远免费。</p>
+  <nav class="lesson-nav"><span>主参考：LLVM Clang 命令指南 clang.llvm.org · 《The Linux Command Line》linuxcommand.org</span></nav>
+</footer>
+</body>
+</html>
