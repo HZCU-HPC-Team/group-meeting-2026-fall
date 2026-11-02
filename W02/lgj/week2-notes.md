@@ -12,7 +12,7 @@
 
 **产出物**：课程课件存档、排查清单参考卡、学习记录（本地工作区 `~/WorkBuddy/teach-linux/`，后续整理后开源）。
 
-**仓库链接**：[Judy7-coder/c_wedding](https://github.com/Judy7-coder/c_wedding) —— 上周完成的第一个完整 C 程序（新婚快乐动画）。
+**仓库链接**：[Judy7-coder/c\_wedding](https://github.com/Judy7-coder/c_wedding) —— 上周完成的第一个完整 C 程序（新婚快乐动画）。
 
 **AI 帮了什么忙（诚实分工）**
 

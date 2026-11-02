@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>0002 · 依赖、库、环境变量、权限</title>
+<link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<header class="doc">
+  <div class="kicker">teach-linux · Lesson 0002（存档）</div>
+  <h1>程序跑起来还缺什么</h1>
+  <p class="out">依赖三阶段 · 环境变量 · 权限数字 · 学习主渠道为对话实操</p>
+</header>
+
+<h2>核心表：缺依赖的三个时刻</h2>
+<table>
+<tr><th>时刻</th><th>缺什么</th><th>报错特征</th></tr>
+<tr><td>编译期</td><td>头文件 .h</td><td><code>fatal error: 'xxx.h' file not found</code></td></tr>
+<tr><td>链接期</td><td>函数实现</td><td><code>undefined reference to 'xxx'</code></td></tr>
+<tr><td>运行期</td><td>动态库本体</td><td><code>error while loading shared libraries</code></td></tr>
+</table>
+
+<h2>要点</h2>
+<ul>
+<li><code>otool -L</code>(Mac) / <code>ldd</code>(Linux) 列依赖；.o 736 字节 → 可执行 33KB，差值 = 链接器从库搬来的代码。</li>
+<li>运行时找库由动态加载器执行；环境变量 <code>DYLD_LIBRARY_PATH</code>/<code>LD_LIBRARY_PATH</code> 是它的调节开关。</li>
+<li><code>export PATH="$PWD:$PATH"</code> 临时把当前目录加进命令搜索清单（仅当前终端有效）。</li>
+<li>权限数字：644=rw-r--r--，755=rwxr-xr-x；<code>umask 022</code> 决定新建文件默认 644。</li>
+</ul>
+
+<footer class="doc"><p>实测记录见 learning-records/0002 · 排错动线见 reference/0001</p></footer>
+</body>
+</html>

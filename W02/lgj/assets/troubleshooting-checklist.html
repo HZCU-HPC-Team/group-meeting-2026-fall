@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>参考卡 · 程序跑不通排查清单</title>
+<link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<header class="doc">
+  <div class="kicker">teach-linux · Reference 0001</div>
+  <h1>程序跑不通排查清单</h1>
+  <p class="out">跑不通时的固定动线：先看现场，再按顺序问五个问题 · 打印友好</p>
+</header>
+
+<h2>0 · 铁律：先看现场，不重跑</h2>
+<p>报错的第一反应不是「再试一次」，是打开文件对报错行号：<code>cat -n 文件名</code>。同样的错跑第二遍不会变对。第一报错是真的，后面多是雪崩——<b>只看第一条</b>。</p>
+
+<h2>1 · 五问排查动线</h2>
+<table>
+<tr><th>顺序</th><th>问题</th><th>工具</th></tr>
+<tr><td>①</td><td>命令找到了吗？</td><td><code>which 命令</code>；自己的程序要 <code>./</code>（PATH 不含当前目录）</td></tr>
+<tr><td>②</td><td>权限够吗？</td><td><code>ls -l</code> 看执行位 x；<code>chmod +x</code> 补</td></tr>
+<tr><td>③</td><td>编译真过了吗？</td><td>看第一条 error；warning 不挡编译</td></tr>
+<tr><td>④</td><td>链接符号全了吗？</td><td><code>undefined reference</code> = 链接期缺实现</td></tr>
+<tr><td>⑤</td><td>退出码说了什么？</td><td><code>echo $?</code>：0 成功 · 126 找到但不可执行 · 127 命令没找到</td></tr>
+</table>
+
+<h2>2 · 缺依赖的三阶段（背这张表）</h2>
+<table>
+<tr><th>缺在哪一刻</th><th>缺什么</th><th>典型报错</th><th>Linux 补法</th></tr>
+<tr><td>编译期</td><td>头文件 .h</td><td><code>fatal error: 'xxx.h' file not found</code></td><td><code>sudo apt install xxx-dev</code></td></tr>
+<tr><td>链接期</td><td>函数实现（.a/.so 开发包）</td><td><code>undefined reference to 'xxx'</code></td><td>装 -dev 包，链接加 <code>-lxxx</code></td></tr>
+<tr><td>运行期</td><td>动态库本体</td><td><code>error while loading shared libraries</code></td><td><code>sudo apt install xxx</code>（运行时包）</td></tr>
+</table>
+<p>查「某个文件属于哪个包」：<code>dpkg -S /路径/libc.so.6</code>；看包状态：<code>apt-cache policy 包名</code>。动线：<b>ldd 找到缺的库名 → dpkg -S/apt search 查包名 → sudo apt install</b>。</p>
+
+<h2>3 · Mac ↔ Linux 对照表</h2>
+<table>
+<tr><th>点</th><th>macOS</th><th>Linux (Ubuntu)</th></tr>
+<tr><td>可执行格式</td><td>Mach-O</td><td>ELF（PIE 默认开启）</td></tr>
+<tr><td>C 标准库</td><td>libSystem.B.dylib</td><td>libc.so.6（glibc）</td></tr>
+<tr><td>看依赖</td><td><code>otool -L</code></td><td><code>ldd</code></td></tr>
+<tr><td>运行时找库的开关</td><td>DYLD_LIBRARY_PATH</td><td>LD_LIBRARY_PATH</td></tr>
+<tr><td>看运行时加载过程</td><td><code>DYLD_PRINT_LIBRARIES=1 ./程序</code></td><td><code>LD_DEBUG=libs ./程序</code></td></tr>
+<tr><td>包管理</td><td>（无系统级）</td><td>apt / dpkg</td></tr>
+<tr><td>shell 配置</td><td>~/.zshrc（zsh）</td><td>~/.bashrc（bash）/ /etc/profile</td></tr>
+<tr><td>符号名</td><td>C 函数加下划线前缀（_main）</td><td>原名（main）</td></tr>
+</table>
+
+<h2>4 · 版本决定行为</h2>
+<p>「教科书说要炸但没炸」先查版本，不是玄学。实例：glibc 2.35（Ubuntu 22.04）把数学函数并入 libc，<code>-lm</code> 成了历史遗留；glibc 2.34 起 pthread/dl/rt 同样并入。经典报错可能因系统太新而不复现。</p>
+
+<h2>5 · 编译四阶段（复习）</h2>
+<pre><code>hello.c ─预处理(-E)─▶ hello.i ─编译(-S)─▶ hello.s ─汇编(-c)─▶ hello.o ─链接──▶ hello
+        头文件展开            变汇编           机器码碎片        和库拼成整体</code></pre>
+<p><code>file</code> 三种指纹：executable（能跑）/ object（碎片，跑不了）/ text（人读的）。736 字节的 .o 变 33KB 的可执行，差的都来自库里。</p>
+
+<footer class="doc">
+  <p>teach-linux 工坊 · 依据第 1~3 课实测产出整理 · 2026-10-29</p>
+  <nav class="lesson-nav"><a href="../lessons/0001-from-source-to-running.html">第 1 课</a><span>卡壳时翻这张卡，不用重听课</span></nav>
+</footer>
+</body>
+</html>

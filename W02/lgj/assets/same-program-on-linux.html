@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>0003 · 在真 Linux 上跑同一个程序</title>
+<link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<header class="doc">
+  <div class="kicker">teach-linux · Lesson 0003（存档）</div>
+  <h1>在真 Linux 上跑同一个程序</h1>
+  <p class="out">hzcu-hpct · Ubuntu 22.04 · gcc 12.3 · 学习主渠道为对话实操</p>
+</header>
+
+<h2>同一份 hello.c，两个系统</h2>
+<p>代码不改一字，在 Mac（clang/arm64/Mach-O）和 Ubuntu（gcc 12.3/x86-64/ELF）都跑通——C 可移植，产物与环境不可移植。</p>
+
+<h2>实测输出判读</h2>
+<ul>
+<li><code>ELF 64-bit LSB pie executable, x86-64, dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2</code> —— ELF 格式；PIE=位置无关+地址随机化；interpreter 是动态加载器。</li>
+<li><code>ldd</code> 三行：linux-vdso（内核映射的虚拟库，磁盘上不存在）、libc.so.6（glibc）、加载器本身。</li>
+<li>退出码：0 成功 · 126 命令在但不可执行 · 127 命令没找到。</li>
+</ul>
+
+<h2>两个「意外即教材」</h2>
+<ul>
+<li><b>sqrt 没炸</b>：glibc 2.35 把数学函数并入 libc，<code>-lm</code> 在 Ubuntu 22.04 成历史遗留。版本决定行为。</li>
+<li><b>boom 爆炸现场</b>：<code>warning: implicit declaration</code>（编译期，C89 遗留：未声明函数默认按 int 处理）→ <code>/usr/bin/ld: undefined reference</code>（链接期）→ <code>collect2: error: ld returned 1 exit status</code>。一份输出里看清两个阶段。</li>
+</ul>
+
+<h2>装依赖动线</h2>
+<pre><code>ldd ./程序 → 找到缺的库名 → dpkg -S /路径/库名 → 查到包名 → sudo apt install 包名</code></pre>
+<p>实测：<code>dpkg -S /lib/x86_64-linux-gnu/libc.so.6</code> → <code>libc6:amd64</code>；<code>apt-cache policy libc6</code> → Installed 2.35-0ubuntu3.15。</p>
+
+<footer class="doc"><p>排除卡壳见 reference/0001 · 下一课：Makefile</p></footer>
+</body>
+</html>
