@@ -37,7 +37,7 @@
 - **目标**：建立"测量 → 定位瓶颈 → 改进 → 验证"的优化闭环；动手改代码，用数据说明加速效果
 - **形式**：讲授 + 代码实操 + 讨论交流（混合）
 - **关联材料**：
-  - [ ] `instructor/materials/w04-*.md`（待准备）
+  - [x] `instructor/materials/w04-consolidate-and-optimize-lecture.md`（第四课课件）
 
 ---
 
