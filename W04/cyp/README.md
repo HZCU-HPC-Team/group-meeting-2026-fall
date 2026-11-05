@@ -4,6 +4,8 @@
 
 > 延续 W03 的纪律：任何加速都必须以 `result.txt` 与 `refer-2dim-5h.txt` 逐字节一致为前提。
 
+**新版任务材料**：[flame.svg](flame.svg)（perf 热点火焰图）、[iteration.md](iteration.md)（版本迭代表）、[understanding.md](understanding.md)（一页理解）。完整代码、脚本和原始数据仍保留在本目录，便于复现。火焰图可用 `python scripts/make_flame_svg.py` 重新生成。
+
 ---
 
 ## 0. 结论速览
