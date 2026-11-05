@@ -10,7 +10,7 @@
 
 1. **版本管理做好**：每一版都能找到源码、说清耗时。
 2. **profiling 工具不限，但必须出图**。
-3. **把热点抽象成能想明白的形式**，自己想减少计算量的办法。
+3. **把热点抽象成能想明白的形式**，把AI给的改动方面变成自己能说明白的内容。
 
 目标：下课时每人有一张图、一个讲得清楚的 idea、一份可复现的版本记录。
 
@@ -37,10 +37,10 @@ opt: <改了什么> | <编译选项> | 132.4s -> 41.7s | diff ok
 
 **迭代表 `iterations.md`**
 
-| 版本 | commit / tag | 改了什么 | 编译选项 | 耗时（中位数） | 相对上一版 | diff | 结论 |
-|---|---|---|---|---|---|---|---|
-| v0-baseline | | 原始代码 | -O0 | | — | ok | 基准 |
-| v1 | | | | | | | 保留 / 回退 |
+| 版本        | commit / tag | 改了什么 | 编译选项 | 耗时（中位数） | 相对上一版 | diff | 结论        |
+| ----------- | ------------ | -------- | -------- | -------------- | ---------- | ---- | ----------- |
+| v0-baseline |              | 原始代码 | -O0      |                | —         | ok   | 基准        |
+| v1          |              |          |          |                |            |      | 保留 / 回退 |
 
 规则：看这张表就能回到那一版、复现那次测量。缺一项就算没记录。
 
@@ -48,24 +48,37 @@ opt: <改了什么> | <编译选项> | 132.4s -> 41.7s | diff ok
 
 ---
 
-## 二、profiling：工具不限，必须出图
+## 二、profiling：perf 火焰图，或试 VTune
 
-**用什么**
+**路线 A：perf + 火焰图（默认）**
 
-- `perf`：继续用。`perf stat` 看计数，`perf record -g` + `perf report` 看热点；
-- `gprof`：`-pg` 编译，跑完分析 `gmon.out`；
-- `valgrind --tool=callgrind`：更细但很慢，适合小输入。
+```bash
+perf record -g ./pivot_O0 uniformvector-2dim-5h.txt
+perf script | ./FlameGraph/stackcollapse-perf.pl | ./FlameGraph/flamegraph.pl > flame.svg
+```
 
-工具不限，选一个能跑通的。
+- 火焰图横轴越宽越耗时，纵向是调用栈，不是时间轴；
+- 栈缺失就加 `--call-graph dwarf` 重采，不要交一张全是 `unknown` 的图；
+- 没有 FlameGraph 脚本的，从 `brendangregg/FlameGraph` 拉一份，缺 `perl` 找讲师。
 
-**必须交的图**
+**路线 B：VTune（本地已安装，想试的用）**
 
-- **热点图**：函数 vs 耗时占比，数据来自 `perf report` 或 `gprof` 输出；
-- 图上写清：标题、横纵轴含义与单位、输入规模、采集命令；
-- 有调用栈就画火焰图，没有就画条形图，不强行；
-- 可选：优化前后耗时对比图。
+```bash
+source /opt/intel/oneapi/setvars.sh        # 以机器上的实际安装路径为准
+vtune --version
 
-图是给报告用的，不是装饰——一张图要能回答"时间花在哪"。
+vtune -collect hotspots -result-dir vtune-r1 -- ./pivot_O0 uniformvector-2dim-5h.txt
+vtune -report summary -result-dir vtune-r1
+```
+
+- 有图形界面的机器直接 `vtune-gui` 打开结果，截图上传；
+- 没有图形界面就用 `-report` 输出，图至少要有 hotspots 汇总。
+
+**图的硬要求**
+
+- 一张能直接放进比赛报告的图：有标题、坐标轴与单位、输入规模、采集命令；
+- 用 perf 交火焰图，用 VTune 交 hotspots 图；用其他工具（gprof、callgrind）也必须出图；
+- 图要能回答"时间花在哪"，不是装饰。
 
 ---
 
@@ -104,7 +117,6 @@ AI 给的是候选，不是结论。
 
 ## 五、现场演示
 
-baseline 打 tag → 选热点 → 抽象成式子 → 提一个 idea → 改一处 → commit → 测 → 填表。
 
 ---
 

@@ -66,8 +66,9 @@
 
 #### 议题二
 
-- 工具不限：perf / gprof / callgrind，选一个能跑通的。
-- 必须交热点图，标注坐标轴、单位、输入规模、采集命令；比赛报告需要图片。
+- 默认路线：`perf record -g` 采集，用 FlameGraph 脚本出火焰图。
+- 备选路线：本地已安装 VTune，激活环境（`source /opt/intel/oneapi/setvars.sh`）后可做 hotspots 分析，GUI 截图或 `-report` 输出。
+- 必须交图，图上标坐标轴、单位、输入规模、采集命令；比赛报告需要图片。
 
 #### 议题三
 
