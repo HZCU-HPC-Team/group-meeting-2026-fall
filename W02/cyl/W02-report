@@ -1,0 +1,95 @@
+#W02作业报告
+##1.这周做了什么
+（1）使用Deepseek网页版做了一个贪吃蛇小游戏，经历五次修正
+版本一
+
+·帮我写一个经典的贪吃蛇小游戏，要求：1. 全部代码写在一个 HTML 文件里（包含 HTML、CSS 和 JavaScript）。2. 使用 Canvas 画布绘制。3. 用键盘上下左右键控制，有计分功能。4. 蛇身颜色和食物颜色区分开，撞墙游戏结束。5. 代码请加上详细的中文注释。
+
+版本二（优化了帧数，扩大了幕布）
+·接着帮我优化一下 优化帧数 将格子扩大
+
+版本三（改为无尽模式，增加了长按空格加速，鼓励词等）
+·接着优化 要求改为无尽模式 每十分出现鼓励类似good exellent等可以不断循环 最好多写几个，另外长按空格可以加速贪吃蛇的速度
+
+版本四（修改了蛇的皮肤，像素画老大，增加了配乐，冰红茶）
+·替换成科比头像 配乐改成see you again 苹果改成冰红茶
+
+版本五（优化了科比皮肤，音乐出现了bug）
+·【manmanman曼巴曼巴】https://www.bilibili.com/video/BV1W4ei6cEBb?vd_source=2083b545ce4e2e9cbc119f4ecbce036f用这个链接贪吃蛇的蛇头换成这个
+
+出现的问题：DS网页版权限不够，因为我在优化中给出了链接，如果想配乐，直接给音乐文件（给权限行不通，因为有浏览器的跨域安全限制（CORS）和防盗链机制）
+
+
+（2）仓库链接
+https://github.com/Yukino1339/HZCU-Tasks-YY
+（3）给DSH装技能（API路线）
+DSH的插件机制支持直接用命令从Github仓库地址安装，所以我听从AI的建议命令行安装
+
+先唤起终端
+
+a输入dsh plugin --profile web add github:Henrycheheng/dsh-plugin-matt-skills
+报错，通常是因为 DSH 没有安装在系统的全局路径里，或者你用的终端没有正确加载它的运行环境
+
+
+b接着输入npx -y @deepseek-ai/dsh plugin --profile web add github:Henrycheheng/dsh-plugin-matt-skills
+报错，是因为电脑还没装 Node.js，或者装了但环境变量没配好
+
+
+两个问题说明电脑缺少运行DSH的最基础环境（Node.js），npx是附赠在Node.js里的工具
+
+装好后npm install -g @deepseek-ai/dsh
+报错，这是因为windows Powershell安全策略默认禁止运行脚本，需要把禁止改成允许本地脚本运行
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+接下来重新输入npm install -g @deepseek-ai/dsh
+
+好了之后建个大肥鱼工作区的文件夹 打开Powershell
+
+之后装好技能后，在终端切换到工作台 打开DSH进去网络证书没通过
+好了，依次（1）开热点挂梯子
+                （2）开热带关梯子
+                （3）校园网
+都进不去，AI让我去查梯子的网络证书，找不到。
+折腾了一个小时，心累
+$env:NODE_OPTIONS="--use-system-ca"
+Node v24自带绕过方案
+进去了证书问题解决，发现又出现了代理问题
+$env:HTTP_PROXY = "http://127.0.0.1:7890"
+$env:HTTPS_PROXY = "http://127.0.0.1:7890"
+终于解决了代理问题 终于能打开用了 发现第一次用命令行装DS找不到，最后告诉他“你刚才说没有 teach 技能。请你现在自己去 GitHub 上把 mattpocock/skills 仓库里的 teach 技能下载下来，放到你默认扫描的技能目录里。装好后，验证一下能不能在技能目录里看到它，然后重新用 teach 技能教我。”
+接着就是给权限，最后就是问答环节
+————以上装插件，这本身就是一个排错的过程
+
+##2.这周学了什么
+（1）Agent的本质，看到了运作方式=模型+Harness
+模型负责思考，Harness负责安全和执行（比如拦截越权写入、弹窗让我审批）
+
+·在 环境配置 阶段，我卡在了 DeepSeek Harness (DSH) 的网络证书报错（SELF_SIGNED_CERT_IN_CHAIN）。AI 帮我定位了问题是 Node.js 不认代理软件的自签证书，并通过注入环境变量 $env:NODE_OPTIONS="--use-system-ca"（强制读取系统证书） 和环境代理（HTTP_PROXY）（解决了Node.js不知道把流量送到哪的问题）成功解决。
+
+·在 技能安装 阶段，AI 发现自己找不到本地的 teach 技能，于是它自主拆解步骤，访问 GitHub 下载文件，并申请了沙盒的 danger-full-access 权限，成功将技能安装到 ~/.dsh/skills/ 目录下，甚至自己调用了 Windows 自带的 WSL（Linux 子系统）来真机验证代码。
+
+（2）skill技能学了什么
+
+#！（shebang）
+就是指定脚本文件用于解析和执行该文件内容的解释器（Interpreter）的绝对路径。不加的话给shell读，复杂了会报错；加了给指定的解释器
+
+命令解释器
+sh(Bourne Shell)稳定，广泛但不搞基
+bash（Bourne Again Shell）sh的进化版，搞基
+
+（3）怎么维护更新自己的GitHub
+随手提交，有小bug及时修
+写好README.md
+合理分库
+
+（4）怎么给别人仓库做贡献
+先区分了两个极易混淆的概念：代码中的 int main() 是程序的执行入口；而 Git 中的 main 分支（Branch）是项目版本管理的主时间线。两者名字虽然一样，但维度完全不同。在提交 PR 时，应从 main 分支切出一个新的分支（Branch）去修改代码，保证了主时间线（主分支）的安全稳定
+发现代码有bug或者想加个功能
+具体来说就是
+先Fork到自家仓库
+再Clone到本地电脑里
+在本地新建一个Branch
+改好之后，把代码打包（git add）并写个说明（git commit），然后用git push退回自己账号下的仓库
+最后去点Pull Request 请求审核
+
+
+
